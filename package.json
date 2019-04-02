@@ -1,0 +1,23 @@
+{
+  "name": "Bamzon",
+  "version": "1.0.0",
+  "description": "An app that allows users to access an inventory of items and purchase desired item.",
+  "main": "bamzonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kjoneil/Bamzon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kjoneil/Bamzon/issues"
+  },
+  "homepage": "https://github.com/kjoneil/Bamzon#readme",
+  "dependencies": {
+    "mysql": "^2.16.0"
+  }
+}

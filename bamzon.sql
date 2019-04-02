@@ -1,7 +1,7 @@
-drop database if exists bamazon_db;
-create database bamazon_db;
+drop database if exists bamzon_db;
+create database bamzon_db;
 
-use bamazon_db;
+use bamzon_db;
 
 create table products (
 id integer(15) auto_increment not null,
