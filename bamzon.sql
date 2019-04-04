@@ -18,4 +18,3 @@ values ("Socks", "Cloths", 4.50, 100),("Pants", "Cloths", 45.00, 30), ("Shirts",
 ("Jacket", "Outerwear", 75.00, 16),("Coat", "Outerwear", 92.99, 12),("Watch", "Accessories", 35.75, 15),
 ("Umbrella", "Accessories", 65.00, 10);
 
-select * from products;
