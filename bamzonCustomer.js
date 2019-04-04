@@ -14,7 +14,7 @@ connection.connect(function(err) {
   if (err) throw err;
   start();
 });
-
+// Connects to mySQL database that stores the products for this app
 function start(){
     connection.query('SELECT * FROM products', function (error, response) {
         if (error) throw error;
@@ -25,7 +25,7 @@ function start(){
         bamzon()
     });
 }
-
+// Purchasing and updating inventory app. First prompts the user with a series of question about the item/quantity they wish to buy a
 function bamzon() {
     inquirer.prompt([
         {
@@ -39,7 +39,7 @@ function bamzon() {
             message: "How many items would you like?",
 
         }]).then(function(order) {
-        
+        // taking the response 
             connection.query("SELECT * FROM products", function(err, response){
             if(err) throw err;
 
@@ -49,6 +49,7 @@ function bamzon() {
                 orderedItem = response[i];
             }
         }
+        // updating inventory and adding the total of the items purchased
         if(orderedItem.stock_quantity > parseInt(order.quantity)){
             connection.query("UPDATE products SET ? WHERE ?",
                 
