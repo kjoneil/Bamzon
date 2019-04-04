@@ -18,60 +18,53 @@ connection.connect(function(err) {
 function start(){
     connection.query('SELECT * FROM products', function (error, response) {
         if (error) throw error;
-        //  creates a new row for each row of data from the response.
-        response.forEach(newRow => {
-            console.log(`Id: ${newRow.id} Name: ${newRow.product_name} Department: ${newRow.department_name} Price: ${newRow.price} Quantity:${newRow.stock_quantity}`)
-        });
+        for(var i=0; i<response.length;i++){
+            console.log("\n"+sresponse[i].id+" | "+response[i].product_name+" | "+response[i].department_name+" | "+response[i].price+" | "+response[i].stock_quantity);
+            console.log("---------------------------------");
+        }
         bamzon()
-})
+    });
 }
 
 function bamzon() {
     inquirer.prompt([
         {
+            name: "itemId",
+            type: "input",
             message: "What is the product ID of the item you wish to purchase?",
-            type: "input",
-            name: "item_id"
-        },
-        {
-            message: "How many items would you like?",
-            type: "input",
-            name: "item_quantity"
-        }
-    ])
-    .then(function (order) {
-        var itemId = order.itemId;
-        var itemQuantity = order.itemQuantity;
-        updateInventory(itemId, itemQuantity)
-    });
-}
 
-function updateInventory(){
-    console.log("updating the stuff");
-    var newStock = products.stock_quantity - itemQuantity;
-    var query = connection.query("UPDATE products SET ? WHERE ?",
-    
-    [{
-        stock_quantity: newStock
-    },
-    {
-        id: itemId
-    }
-],
-function(err, response){
-    console.log(response.affectedRows + "products updated!\n");
-    // readProducts();
-}
-)
-    console.log(query.sql);
-    
-}
-// function readProducts() {
-//     console.log("Selecting all products...\n");
-//     connection.query("SELECT * FROM products", function(err, res) {
-//       if (err) throw err;
-//       // Log all results of the SELECT statement
-//       console.log(response);
-//       connection.end();
-//     });
-//   }
+        },{
+            name: "quantity",
+            type: "input",
+            message: "How many items would you like?",
+
+        }]).then(function(order) {
+        
+            connection.query("SELECT * FROM products", function(err, response){
+            if(err) throw err;
+
+        var orderedItem;
+        for(var i=0; i<response.length;i++){
+            if(response[i].id === parseInt(order.itemId)){
+                orderedItem = response[i];
+            }
+        }
+        if(orderedItem.stock_quantity > parseInt(order.quantity)){
+            connection.query("UPDATE products SET ? WHERE ?",
+                
+            [{stock_quantity: (orderedItem.stock_quantity - parseInt(order.quantity))},
+             {id: orderedItem.id}],
+        function(error){
+            if(error) throw error;
+            console.log("Thank you! "+" Your total is "+"$"+parseInt(order.quantity)* orderedItem.price);
+            console.log("inventory updated!\n");
+
+                }    
+            );
+        }else {
+            console.log("Sorry! Insufficient quantity!");
+            }
+            connection.end();
+        });
+    });
+};
